@@ -5,7 +5,7 @@ from functools import lru_cache
 
 from errbot.backends.base import (
     Message, Presence, ONLINE, AWAY, Person, UserDoesNotExistError,
-    Room, RoomError, RoomDoesNotExistError, RoomOccupant,
+    Room, RoomError, RoomDoesNotExistError, RoomOccupant, Stream
 )
 from errbot.core import ErrBot
 from errbot.rendering import md
@@ -477,6 +477,10 @@ class MattermostBackend(ErrBot):
 				"An exception occurred while trying to send the following message "
 				"to %s: %s" % (to_name, message.body)
 			)
+
+	def send_stream_request(self, identifier, fsource, name=None, size=None, stream_type=None):
+		stream = Stream(identifier, fsource, name, size, stream_type)
+		return stream
 
 	def prepare_message_body(self, body, size_limit):
 		"""
